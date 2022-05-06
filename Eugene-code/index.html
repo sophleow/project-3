@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="kanban.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="title">
+        <h1>Kanban Board</h1>
+        <!-- Trigger/Open The Modal -->
+        <button id="myBtn">Create New Task</button>
+      </div>
+      <div class="backlog">
+        <h2>Backlog</h2>
+        <ul id="myUL1" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <li
+            id="item2"
+            class="card"
+            draggable="true"
+            ondragstart="drag(event)"
+          >
+            <div class="container">item 2</div>
+          </li>
+          <li
+            id="item3"
+            class="card"
+            draggable="true"
+            ondragstart="drag(event)"
+          >
+            <div class="container">item 3</div>
+          </li>
+        </ul>
+      </div>
+      <div class="inprogress">
+        <h2>In-Progress</h2>
+        <ul id="myUL2" ondrop="drop(event)" ondragover="allowDrop(event)"></ul>
+      </div>
+      <div class="completed">
+        <h2>Compeleted</h2>
+        <ul id="myUL3" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <li
+            id="item1"
+            class="card"
+            draggable="true"
+            ondragstart="drag(event)"
+          >
+            item under complete
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" id="mcloseButton">&times;</span>
+        <h1>ADD NEW TASK TO BACKLOG</h1>
+        <input type="text" id="myInput" placeholder="Title..." />
+        <span onclick="newElement()" class="addBtn">Add</span>
+      </div>
+    </div>
+
+    <script src="kanban.js"></script>
+  </body>
+</html>
