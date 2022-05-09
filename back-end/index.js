@@ -1,20 +1,7 @@
-const { testConnection } = require('./db');
-const UserData = require('./models/userdata');
-const TodoList = require('./models/todo-list');
+const app = require('./routes');
 
-async function initiate() {
-	if (!(await testConnection())) {
-		return;
-	}
+const PORT = 3010;
 
-	// await UserData.sync({ alter: true });
-	// await TodoList.sync({ alter: true });
-
-	// const userdata = await UserData.findAll();
-	// console.table(JSON.parse(JSON.stringify(userdata)));
-
-	const todolist = await TodoList.findAll();
-	console.table(JSON.parse(JSON.stringify(todolist)));
-}
-
-initiate();
+app.listen(PORT, () => {
+	console.log(`Listening to port ${PORT} ...`);
+});
