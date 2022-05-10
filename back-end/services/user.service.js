@@ -4,53 +4,49 @@ const hash = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-	signin: async (username, password) => {
+	signin: async (email, password) => {
 		const result = {
 			status: null,
 			message: null,
 			data: null,
 		};
-		const userdata = await User.findOne({
-			where: { username: "" },
-		});
+		try {
+			let user = await User.findOne({ where: { email: email } });
 
-		if (!userdata) {
-			result.status = 404;
-			result.message = `No account found, register a new account`;
-			return result;
-		}
+			if (user && (await bcrypt.compare(password, user.password))) {
+				// Create token
+				const token = jwt.sign({ user_id: user._id, email }, process.env.TOKEN_KEY, {
+					expiresIn: "2h",
+				});
 
-		if (!userdata.username) {
+				// save user token
+				user.token = token;
+
+				// user
+				// res.status(200).json(user);
+				result.status = 200;
+				result.message = "Login successful";
+				result.data = user;
+
+				return result;
+			}
+			// res.status(400).send("Invalid Credentials");
 			result.status = 400;
-			result.message = `Incorrect username, try again!`;
+			result.message = "Invalid credentials";
 			return result;
+		} catch (err) {
+			console.log("user login error caught", err);
 		}
-
-		if (!userdata.password) {
-			result.status = 400;
-			result.message = `Incorrect password, try again!`;
-			return result;
-		}
-
-		userdata.username = username;
-		userdata.password = password;
-		await userdata.save();
-
-		result.status = 200;
-		result.message = "Login successful";
-		result.data = userdata;
-
-		return result;
 	},
 
 	register: async (email, password) => {
-		try {
-			const result = {
-				status: null,
-				message: null,
-				data: null,
-			};
+		const result = {
+			status: null,
+			message: null,
+			data: null,
+		};
 
+		try {
 			let user = await User.findOne({ where: { email: email } });
 
 			if (user) {

@@ -12,6 +12,6 @@ const User = require("../models/user.model");
 // 	res.send(await Userdata.findAll());
 // });
 
-router.get("/login/userdata", userdatacontroller.signin);
+router.post("/login", userdatacontroller.signin);
 
 module.exports = router;
