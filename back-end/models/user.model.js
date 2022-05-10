@@ -1,10 +1,10 @@
 const { sequelize } = require("../db");
 const { Model, DataTypes } = require("sequelize");
-const User = require("./user");
+require("validator");
 
-class TodoList extends Model {}
+class User extends Model {}
 
-TodoList.init(
+User.init(
 	// Column config
 	{
 		id: {
@@ -12,24 +12,23 @@ TodoList.init(
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		userId: {
-			type: DataTypes.INTEGER,
-			field: "user_id",
-		},
-		title: {
+		email: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			field: "title",
+			field: "email",
+			unique: true,
+			validate: {
+				isEmail: true,
+			},
 		},
-		description: {
+		token: {
 			type: DataTypes.STRING,
-			allowNull: true,
-			field: "description",
+			field: "token",
 		},
-		progress: {
+		password: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			field: "progress_status",
+			field: "password",
 		},
 		createdAt: {
 			type: DataTypes.DATE,
@@ -43,13 +42,9 @@ TodoList.init(
 	// Model config
 	{
 		sequelize,
-		modelName: "TodoList",
-		tableName: "todo_list",
+		modelName: "User",
+		tableName: "users",
 	}
 );
 
-TodoList.belongsTo(User, {
-	foreignKey: "email",
-});
-
-module.exports = TodoList;
+module.exports = User;

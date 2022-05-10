@@ -1,6 +1,11 @@
-const app = require('./routes');
+require("dotenv").config();
+const app = require("./routes");
+const { sequelize } = require("./db");
 
-const PORT = 3010;
+const PORT = process.env.PORT || 3010;
+// (async () => {
+// 	await sequelize.sync({ force: true });
+// })();
 
 app.listen(PORT, () => {
 	console.log(`Listening to port ${PORT} ...`);
