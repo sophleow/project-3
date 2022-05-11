@@ -3,7 +3,7 @@ const userdataService = require('../services/userdata.service');
 class UserDataController {
 	async signin(req, res) {
 		//login
-		const { username, pwd } = req.body;
+		const { username, pwd } = req.params;
 
 		const { status, data, message } = await userdataService.signin(
 			username,
