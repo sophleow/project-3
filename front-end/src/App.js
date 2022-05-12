@@ -26,8 +26,14 @@ const handleCardDelete = (cardId) => {
 
 function App() {
   return (
-    <div className="App" >
-      <h1>Your Work Progression</h1>
+    <div>
+      <h1> </h1>
+      <div>
+        <div class="content">
+          <h2>WorkProgress</h2>
+          <h2>WorkProgress</h2>
+        </div>
+      </div>
 
       <Board
         data={data}

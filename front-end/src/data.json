@@ -2,6 +2,7 @@
   "lanes": [
     {
       "id": "Backlog",
+      "name": "Backlog",
       "title": "Backlog Tasks",
       "label": "",
       "style": {
