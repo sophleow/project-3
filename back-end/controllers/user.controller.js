@@ -1,14 +1,13 @@
-const userdataService = require("../services/user.service");
+const userService = require("../services/user.service");
 
-class UserDataController {
-	async signin(req, res) {
-		//login
+class UserController {
+	async login(req, res) {
 		const { email, password } = req.body;
 		if (!(email && password && email.trim().length > 0 && password.trim().length > 0)) {
 			return res.status(400).json({ message: "Email and password required" });
 		}
 		try {
-			const result = await userdataService.signin(email.trim().toLowerCase(), password);
+			const result = await userService.login(email.trim().toLowerCase(), password);
 
 			res.status(result.status);
 			res.json({ data: result.data, message: result.message });
@@ -19,13 +18,26 @@ class UserDataController {
 	}
 
 	async register(req, res) {
-		const { email, password } = req.body;
+		const { email, password, username } = req.body;
 
-		if (!(email && password && email.trim().length > 0 && password.trim().length > 0)) {
-			return res.status(400).json({ message: "Email and password required" });
+		if (
+			!(
+				email &&
+				password &&
+				username &&
+				email.trim().length > 0 &&
+				password.trim().length > 0 &&
+				username.trim().length > 0
+			)
+		) {
+			return res.status(400).json({ message: "Email, username and password required" });
 		}
 		try {
-			const result = await userdataService.register(email.trim().toLowerCase(), password);
+			const result = await userService.register(
+				email.trim().toLowerCase(),
+				username.trim().toLowerCase(),
+				password
+			);
 			res.status(result.status);
 			return res.json({ data: result.data, message: result.message });
 		} catch (err) {
@@ -35,4 +47,4 @@ class UserDataController {
 	}
 }
 
-module.exports = UserDataController;
+module.exports = UserController;

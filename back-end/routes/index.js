@@ -1,14 +1,15 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+const auth = require("./auth");
 
 app.use(express.json());
 
-const dashboardRoutes = require('./dashboard.routes');
-const loginRoutes = require('./login.routes');
-const registerRoutes = require('./register.routes');
+const board = require("./board.route");
+const login = require("./login.route");
+const register = require("./register.route");
 
-// app.use(dashboardRoutes);
-app.use(loginRoutes);
-app.use(registerRoutes);
+app.use("/board", auth, board);
+app.use("/login", login);
+app.use("/register", register);
 
 module.exports = app;

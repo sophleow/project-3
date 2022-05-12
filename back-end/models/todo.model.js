@@ -44,7 +44,7 @@ TodoList.init(
 	{
 		sequelize,
 		modelName: "TodoList",
-		tableName: "todo_list",
+		tableName: "todo",
 	}
 );
 

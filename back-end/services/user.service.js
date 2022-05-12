@@ -4,7 +4,7 @@ const hash = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-	signin: async (email, password) => {
+	login: async (email, password) => {
 		const result = {
 			status: null,
 			message: null,
@@ -18,19 +18,14 @@ module.exports = {
 				const token = jwt.sign({ user_id: user._id, email }, process.env.TOKEN_KEY, {
 					expiresIn: "2h",
 				});
-
 				// save user token
 				user.token = token;
 
-				// user
-				// res.status(200).json(user);
 				result.status = 200;
 				result.message = "Login successful";
 				result.data = user;
-
 				return result;
 			}
-			// res.status(400).send("Invalid Credentials");
 			result.status = 400;
 			result.message = "Invalid credentials";
 			return result;
@@ -39,7 +34,7 @@ module.exports = {
 		}
 	},
 
-	register: async (email, password) => {
+	register: async (email, username, password) => {
 		const result = {
 			status: null,
 			message: null,
@@ -48,9 +43,16 @@ module.exports = {
 
 		try {
 			let user = await User.findOne({ where: { email: email } });
+			let existing_username = await User.findOne({ where: { username: username } });
 
 			if (user) {
 				result.message = `Email '${email}' already registered. Please login`;
+				result.status = 409;
+				return result;
+			}
+
+			if (existing_username) {
+				result.message = `Username '${username}' already exists.`;
 				result.status = 409;
 				return result;
 			}
@@ -59,6 +61,7 @@ module.exports = {
 			console.log(hash);
 			user = await User.create({
 				email: email,
+				username: username,
 				password: hash,
 			});
 
@@ -79,6 +82,9 @@ module.exports = {
 			return result;
 		} catch (err) {
 			console.log("user create error caught", err);
+			result.status = 400;
+			result.message = "Invalid email address";
+			return result;
 		}
 	},
 };

@@ -4,6 +4,38 @@ require("validator");
 
 class User extends Model {}
 
+const boardDefault = {
+	lanes: [
+		{
+			id: "Backlog",
+			title: "Backlog Tasks",
+			label: "",
+			style: {
+				width: 280,
+			},
+			cards: [],
+		},
+		{
+			id: "InProgress",
+			title: "Work In Progress",
+			label: "",
+			style: {
+				width: 280,
+			},
+			cards: [],
+		},
+		{
+			id: "Completed",
+			title: "Completed",
+			label: "",
+			style: {
+				width: 280,
+			},
+			cards: [],
+		},
+	],
+};
+
 User.init(
 	// Column config
 	{
@@ -21,6 +53,11 @@ User.init(
 				isEmail: true,
 			},
 		},
+		username: {
+			type: DataTypes.STRING,
+			field: "username",
+			unique: true,
+		},
 		token: {
 			type: DataTypes.STRING,
 			field: "token",
@@ -29,6 +66,11 @@ User.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 			field: "password",
+		},
+		board: {
+			type: DataTypes.JSON,
+			field: "board",
+			defaultValue: boardDefault,
 		},
 		createdAt: {
 			type: DataTypes.DATE,
