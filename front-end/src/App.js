@@ -31,6 +31,57 @@ function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Eugene work to handle input into console
+  const [emailadd, setemailadd] = useState('');
+  const [pwd, setpwd] = useState('');
+
+  const handleChange = event => {
+
+    setemailadd(event.target.value);
+    console.log('value is:', event.target.value);
+  };
+  const handleChange1 = event => {
+
+    setpwd(event.target.value);
+    console.log('value is:', event.target.value);
+  };
+  const wannalogin = event => {
+    event.preventDefault();
+    console.log("I'm working");
+    // 👇️ value of input field
+    console.log('handleClick 👉️', emailadd);
+    console.log('handleClick 👉️', pwd);
+  };
+
+  // Eugene work to handle registration
+  const [username2, setUsername2] = useState('');
+  const [email2, setEmail2] = useState('');
+  const [pwd2, setPwd2] = useState('');
+
+  const handleChange2 = event => {
+
+    setUsername2(event.target.value);
+    console.log('username is:', event.target.value);
+  };
+  const handleChange3 = event => {
+
+    setEmail2(event.target.value);
+    console.log('email is:', event.target.value);
+  };
+  const handleChange4 = event => {
+
+    setPwd2(event.target.value);
+    console.log('password is:', event.target.value);
+  };
+  const wannaregister = event => {
+    event.preventDefault();
+    console.log("I'm working");
+    // 👇️ value of input field
+    console.log('username 👉️', username2);
+    console.log('email 👉️', email2);
+    console.log('pwd2 👉️', pwd2);
+  };
+
   // const [user, setUser] = useState({
   // 	username: null,
   // 	email: null,
@@ -73,6 +124,7 @@ function App() {
                 <Form.Control
                   id='floatingInputCustom'
                   type='email'
+                  onChange={handleChange}
                   placeholder='name@example.com'
                   style={{ width: '100%', height: 'auto' }}
                 />
@@ -86,6 +138,7 @@ function App() {
                 <Form.Control
                   id='floatingPasswordCustom'
                   type='password'
+                  onChange={handleChange1}
                   placeholder='Password'
                   style={{ width: '100%', height: 'auto' }}
                 />
@@ -96,7 +149,7 @@ function App() {
           <tr>
             <td>
               {/* Login trigger button */}
-              <Button variant='info' type='login' size='l'>
+              <Button variant='info' type='login' size='l' onClick={wannalogin}>
                 Log in
               </Button>
             </td>
@@ -108,7 +161,7 @@ function App() {
                 variant='warning'
                 type='Register'
                 size='l'
-                onClick={handleClose}
+                onClick={handleShow}
               >
                 Register
               </Button>
@@ -129,13 +182,13 @@ function App() {
                       controlId='formHorizontalName'
                     >
                       <Form.Label column sm={2}>
-                        Username
+                        Name :
                       </Form.Label>
                       <Col sm={8}>
                         <Form.Control
                           type='username'
                           placeholder='Username'
-                          // onChange={onChangeHandler}
+                          onChange={handleChange2}
                           autoFocus
                         />
                       </Col>
@@ -153,7 +206,7 @@ function App() {
                         <Form.Control
                           type='email'
                           placeholder='Email'
-                        // onChange={onChangeHandler}
+                          onChange={handleChange3}
                         />
                       </Col>
                     </Form.Group>
@@ -170,7 +223,7 @@ function App() {
                         <Form.Control
                           type='password'
                           placeholder='Password'
-                        // onChange={onChangeHandler}
+                          onChange={handleChange4}
                         />
                         <Form.Text id='passwordHelpBlock' muted>
                           Your password must be 8-20 characters long, contain
@@ -185,7 +238,7 @@ function App() {
                   <Button variant='secondary' onClick={handleClose}>
                     Cancel
                   </Button>
-                  <Button variant='primary'>Create New</Button>
+                  <Button variant='primary' onClick={wannaregister}>Create New</Button>
                 </Modal.Footer>
               </Modal>
             </td>
