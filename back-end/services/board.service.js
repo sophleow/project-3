@@ -10,7 +10,7 @@ module.exports = {
 		try {
 			let user = await User.findOne({ where: { email: userEmail } });
 			result.status = 200;
-			result.message = "Board display successful";
+			result.message = "Board update successful";
 			user.board = userBoard;
 			await user.save();
 			result.data = user.board;

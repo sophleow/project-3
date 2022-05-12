@@ -3,8 +3,10 @@ const boardService = require("../services/board.service");
 class BoardController {
 	async updateBoard(req, res) {
 		try {
-			const { board } = req.body;
-			const result = await boardService.updateBoard(req.user.email, req.body);
+			const board = req.body.board;
+			const email = req.user.email;
+			console.log(req.user, board);
+			const result = await boardService.updateBoard(email, board);
 			res.status(result.status);
 			res.json({ data: result.data, message: result.message });
 		} catch (err) {

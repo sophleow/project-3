@@ -8,10 +8,23 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
 
+const axios = require("axios").default;
+const instance = axios.create({
+	baseURL: "http://localhost:3001",
+	// timeout: 1000,
+	// headers: { "X-Custom-Header": "foobar" },
+});
+// Alter defaults after instance has been created
+// instance.defaults.headers.common["Authorization"] = AUTH_TOKEN;
+
 function App() {
 	const [signIn, setSignIn] = useState(false);
-	const userSignIn = (result) => {
-		setSignIn(result);
+	const [board, setBoard] = useState({});
+	const [token, setToken] = useState("");
+	const userSignIn = ({ board, token }) => {
+		setBoard(board);
+		setToken(token);
+		setSignIn(true);
 	};
 	// const [user, setUser] = useState({
 	// 	username: null,
@@ -40,7 +53,7 @@ function App() {
 		<div class="grid-container">
 			<Header />
 			{!signIn && <Auth login={userSignIn} />}
-			{signIn && <UserBoard />}
+			{signIn && <UserBoard boardData={board} userToken={token} />}
 		</div>
 	);
 }
@@ -61,8 +74,17 @@ function Header() {
 }
 
 function Auth(props) {
+	const [regErr, setRegErr] = useState("");
+	const [logErr, setLogErr] = useState("");
+
 	const [show, setShow] = useState(false);
-	const handleClose = () => setShow(false);
+	function handleClose() {
+		setShow(false);
+		setRegErr("");
+		setUsername2("");
+		setEmail2("");
+		setPwd2("");
+	}
 	const handleShow = () => setShow(true);
 
 	// Eugene work to handle input into console
@@ -78,12 +100,25 @@ function Auth(props) {
 		console.log("value is:", event.target.value);
 	};
 	const wannalogin = (event) => {
-		props.login(true);
 		event.preventDefault();
 		console.log("I'm working");
 		// 👇️ value of input field
 		console.log("handleClick 👉️", emailadd);
 		console.log("handleClick 👉️", pwd);
+		instance
+			.post("/login", {
+				password: pwd,
+				email: emailadd,
+			})
+			.then(function (response) {
+				console.log(response.data.data);
+				console.log("token", response.data.data.token);
+				props.login({ board: response.data.data.board, token: response.data.data.token });
+			})
+			.catch(function (error) {
+				console.log(error.response.data.message);
+				setLogErr(error.response.data.message);
+			});
 	};
 
 	// Eugene work to handle registration
@@ -110,7 +145,22 @@ function Auth(props) {
 		console.log("username 👉️", username2);
 		console.log("email 👉️", email2);
 		console.log("pwd2 👉️", pwd2);
+		instance
+			.post("/register", {
+				username: username2,
+				password: pwd2,
+				email: email2,
+			})
+			.then(function (response) {
+				console.log(response);
+				handleClose();
+			})
+			.catch(function (error) {
+				console.log(error.response.data.message);
+				setRegErr(error.response.data.message);
+			});
 	};
+
 	return (
 		<>
 			<div class="item2">
@@ -141,6 +191,7 @@ function Auth(props) {
 								/>
 								<label htmlFor="floatingPasswordCustom">Password</label>
 							</Form.Floating>
+							<span style={{ color: "red" }}>{logErr}</span>
 						</td>
 					</tr>
 					<tr>
@@ -159,13 +210,13 @@ function Auth(props) {
 							</Button>
 							<Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
 								<Modal.Header closeButton>
-									<Modal.Title>Register Page</Modal.Title>
+									<Modal.Title>Register</Modal.Title>
 								</Modal.Header>
 								<Modal.Body>
 									<Form>
 										<Form.Group as={Row} className="mb-3" controlId="formHorizontalName">
 											<Form.Label column sm={2}>
-												Name :
+												Username
 											</Form.Label>
 											<Col sm={8}>
 												<Form.Control
@@ -201,6 +252,7 @@ function Auth(props) {
 													and must not contain spaces, special characters, or emoji.
 												</Form.Text>
 											</Col>
+											<span style={{ color: "red" }}>{regErr}</span>
 										</Form.Group>
 									</Form>
 								</Modal.Body>
@@ -209,7 +261,7 @@ function Auth(props) {
 										Cancel
 									</Button>
 									<Button variant="primary" onClick={wannaregister}>
-										Create New
+										Sign Up
 									</Button>
 								</Modal.Footer>
 							</Modal>
@@ -221,11 +273,31 @@ function Auth(props) {
 	);
 }
 
-function UserBoard() {
+function UserBoard(props) {
+	function handleDataChange(newData) {
+		console.log(props.userToken, newData);
+		instance
+			.put("/board", {
+				board: newData,
+				token: props.userToken,
+			})
+			.then(function (response) {
+				console.log(response);
+			})
+			.catch(function (error) {
+				console.log(error.response.data.message);
+			});
+	}
 	return (
 		<>
 			<div class="item3">
-				<Board data={data} draggable editable addCardTitle="Add Item" />
+				<Board
+					data={props.boardData}
+					draggable
+					editable
+					addCardTitle="Add Item"
+					onDataChange={handleDataChange}
+				/>
 			</div>{" "}
 		</>
 	);
