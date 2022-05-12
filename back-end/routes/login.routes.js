@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const UserDataController = require('../controllers/userdata.controller');
+const UserDataController = require("../controllers/user.controller");
 const userdatacontroller = new UserDataController();
-const Userdata = require('../models/userdata');
+const User = require("../models/user.model");
 
 // router.get('/testing', (req, res) => {
 // 	return res.send('Calling login route');
@@ -12,6 +12,6 @@ const Userdata = require('../models/userdata');
 // 	res.send(await Userdata.findAll());
 // });
 
-router.get('/login/userdata', userdatacontroller.signin);
+router.post("/login", userdatacontroller.signin);
 
 module.exports = router;
