@@ -10,12 +10,9 @@ import { useState } from "react";
 
 const axios = require("axios").default;
 const instance = axios.create({
-	baseURL: "http://localhost:3001",
-	// timeout: 1000,
-	// headers: { "X-Custom-Header": "foobar" },
+	baseURL: "https://sdic4g5.herokuapp.com/",
+	// baseURL: "http://localhost:3001/",
 });
-// Alter defaults after instance has been created
-// instance.defaults.headers.common["Authorization"] = AUTH_TOKEN;
 
 function App() {
 	const [signIn, setSignIn] = useState(false);
@@ -26,28 +23,6 @@ function App() {
 		setToken(token);
 		setSignIn(true);
 	};
-	// const [user, setUser] = useState({
-	// 	username: null,
-	// 	email: null,
-	// 	password: null,
-	// });
-
-	// const onChangeHandler = (e) => {
-	// 	console.log(e.target.value);
-	// 	setUser(e.target.value);
-	// };
-
-	// const onSubmitHandler = (e) => {
-	// 	e.preventDefault();
-	// 	const data = { ...user };
-
-	// 	data.username = e.target.value;
-	// 	data.email = e.target.value;
-	// 	data.password = e.target.value;
-
-	// 	console.log(data.username, data.email);
-	// 	setUser(data);
-	// };
 
 	return (
 		<div class="grid-container">
