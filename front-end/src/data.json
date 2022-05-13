@@ -1,0 +1,39 @@
+{
+  "lanes": [
+    {
+      "id": "Backlog",
+      "name": "Backlog",
+      "title": "Backlog Tasks",
+      "label": "",
+      "style": {
+        "width": 280
+      },
+      "cards": [
+        {
+          "id": "Milk",
+          "title": "Buy milk",
+          "label": "15 mins",
+          "description": "2 Gallons of milk at the Deli store"
+        }
+      ]
+    },
+    {
+      "id": "InProgress",
+      "title": "Work In Progress",
+      "label": "",
+      "style": {
+        "width": 280
+      },
+      "cards": []
+    },
+    {
+      "id": "Completed",
+      "title": "Completed",
+      "label": "",
+      "style": {
+        "width": 280
+      },
+      "cards": []
+    }
+  ]
+}
